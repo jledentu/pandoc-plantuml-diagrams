@@ -16,13 +16,10 @@ import Data.Maybe
 
 -- | The result block, as specified in the module header.
 resultBlock :: ImageFileName -> Attr -> Block
-resultBlock imageFileName attr = Para $ map (\p -> p imageFileName attr) [imageTag, idTag]
+resultBlock imageFileName attr = Para [imageTag imageFileName attr]
 
 imageTag :: ImageFileName -> Attr -> Inline
-imageTag imageFileName attr    = Image (altTagInline attr) ((show imageFileName), "fig:")
-
-idTag :: ImageFileName -> Attr -> Inline
-idTag _ (id, _, _)             = Str ("{#" ++ id ++ "}")
+imageTag imageFileName attr    = Image attr (altTagInline attr) ((show imageFileName), "fig:")
 
 altTagInline :: Attr -> [Inline]
 altTagInline (_, _, keyValues)
